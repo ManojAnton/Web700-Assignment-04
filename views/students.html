@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student List</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/theme.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Manoj</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="/htmlDemo">HTML Demo</a></li>
+                <li class="nav-item"><a class="nav-link" href="/students/add">Add Student</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <h1>Student List</h1>
+        <table class="table table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Student Number</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>City</th>
+                    <th>Province</th>
+                    <th>TA</th>
+                    <th>Status</th>
+                    <th>Course</th>
+                </tr>
+            </thead>
+            <tbody id="studentTableBody">
+                <!-- Student Data Will Load Here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Fetch Student Data and Populate the Table
+        fetch('/api/students')
+            .then(response => response.json())
+            .then(data => {
+                let tableBody = document.getElementById('studentTableBody');
+                data.forEach(student => {
+                    let row = `<tr>
+                        <td>${student.studentNum}</td>
+                        <td>${student.firstName}</td>
+                        <td>${student.lastName}</td>
+                        <td>${student.email}</td>
+                        <td>${student.addressCity}</td>
+                        <td>${student.addressProvince}</td>
+                        <td>${student.TA ? "Yes" : "No"}</td>
+                        <td>${student.status}</td>
+                        <td>${student.course}</td>
+                    </tr>`;
+                    tableBody.innerHTML += row;
+                });
+            })
+            .catch(error => console.error('Error fetching students:', error));
+    </script>
+</body>
+</html>
